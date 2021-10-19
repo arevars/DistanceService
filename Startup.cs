@@ -1,3 +1,6 @@
+using AutoMapper;
+using DistanceService.Interfaces;
+using DistanceService.Sevices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +29,8 @@ namespace DistanceService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            IMapper mapper = AutoMapperProfile.GetMapperConfiguration().CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddControllers();
             services.AddAutoMapper(typeof(Startup));
@@ -33,6 +38,10 @@ namespace DistanceService
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DistanceService", Version = "v1" });
             });
+
+            services.AddTransient<IAirportDetailsService, AirportDetailsService>();
+            services.AddTransient<IDistanceService, Sevices.DistanceService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
