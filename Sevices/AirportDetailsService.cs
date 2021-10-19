@@ -11,12 +11,10 @@ namespace DistanceService.Sevices
 {
     public class AirportDetailsService : IAirportDetailsService
     {
-        private readonly ILogger _logger;
         private readonly IConfiguration _config;
 
-        public AirportDetailsService(ILogger logger, IConfiguration config)
+        public AirportDetailsService(IConfiguration config)
         {
-            _logger = logger;
             _config = config;
         }
         public async Task<AirportDetails> GetAirportDetailsByIATA(string iata)

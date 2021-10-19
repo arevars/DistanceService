@@ -1,30 +1,46 @@
 ﻿using AutoMapper;
+using DistanceService.Interfaces;
+using DistanceService.Models.RequestModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DistanceService.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class DistanceController : ControllerBase
     {
-        private readonly ILogger<DistanceController> _logger;
         private readonly IMapper _mapper;
+        private readonly IDistanceService _service;
 
-        public DistanceController(ILogger<DistanceController> logger, IMapper mapper)
+        public DistanceController(
+            IMapper mapper,
+            IDistanceService service)
         {
-            _logger = logger;
             _mapper = mapper;
+            _service = service;
         }
 
-        //[HttpGet]
-        //public IActionResult GetDistance()
-        //{
-        //    return 
-        //}
+        [HttpPost]
+        public async Task<IActionResult> GetDistance(GetDistanceRequestModel request)
+        {
+            try
+            {
+                var result = await _service.GetDistance(request);
+                if (result is not null)
+                {
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+
+            return BadRequest();
+        }
     }
+
 }
