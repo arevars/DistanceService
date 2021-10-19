@@ -1,36 +1,36 @@
-﻿using AutoMapper;
-using System;
+﻿//using AutoMapper;
+//using System;
 
-namespace DistanceService
-{
-    public class AutoMapperProfile : Profile
-    {
-        public AutoMapperProfile()
-        {
-            //CreateMap<ViberMessage, NikitaMessage>();
+//namespace DistanceService
+//{
+//    public class AutoMapperProfile : Profile
+//    {
+//        public AutoMapperProfile()
+//        {
+//            //CreateMap<ViberMessage, NikitaMessage>();
 
-        }
+//        }
 
-        public static MapperConfiguration GetMapperConfiguration()
-        {
-            var mapper = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new AutoMapperProfile());
-            });
+//        public static MapperConfiguration GetMapperConfiguration()
+//        {
+//            var mapper = new MapperConfiguration(mc =>
+//            {
+//                mc.AddProfile(new AutoMapperProfile());
+//            });
             
-            return mapper;
-        }
-    }
+//            return mapper;
+//        }
+//    }
 
-    public static class MappingExpressionExtensions
-    {
-        public static IMappingExpression<TSource, TDest> IgnoreAllUnmapped<TSource, TDest>(this IMappingExpression<TSource, TDest> expression)
-        {
-            expression = expression ?? throw new ArgumentNullException(nameof(expression));
+//    public static class MappingExpressionExtensions
+//    {
+//        public static IMappingExpression<TSource, TDest> IgnoreAllUnmapped<TSource, TDest>(this IMappingExpression<TSource, TDest> expression)
+//        {
+//            expression = expression ?? throw new ArgumentNullException(nameof(expression));
             
-            expression.ForAllMembers(opt => opt.Ignore());
+//            expression.ForAllMembers(opt => opt.Ignore());
             
-            return expression;
-        }
-    }
-}
+//            return expression;
+//        }
+//    }
+//}

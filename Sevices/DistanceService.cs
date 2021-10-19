@@ -1,10 +1,7 @@
 ﻿using DistanceService.Interfaces;
 using DistanceService.Models;
 using DistanceService.Models.RequestModels;
-using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DistanceService.Sevices
@@ -42,15 +39,31 @@ namespace DistanceService.Sevices
             };
         }
 
-        public double CalculateDistance(Location point1, Location point2)
+        public double CalculateDistance(Location point1, Location point2, char unit = 'M')
         {
-            var d1 = point1.Latitude * (Math.PI / 180.0);
-            var num1 = point1.Longitude * (Math.PI / 180.0);
-            var d2 = point2.Latitude * (Math.PI / 180.0);
-            var num2 = point2.Longitude * (Math.PI / 180.0) - num1;
-            var d3 = Math.Pow(Math.Sin((d2 - d1) / 2.0), 2.0) +
-                     Math.Cos(d1) * Math.Cos(d2) * Math.Pow(Math.Sin(num2 / 2.0), 2.0);
-            return 6376500.0 * (2.0 * Math.Atan2(Math.Sqrt(d3), Math.Sqrt(1.0 - d3)));
+            double rlat1 = Math.PI * point1.Latitude / 180;
+            double rlat2 = Math.PI * point2.Latitude / 180;
+            double theta = point1.Longitude - point2.Longitude;
+            double rtheta = Math.PI * theta / 180;
+            double dist =
+                Math.Sin(rlat1) * Math.Sin(rlat2) + Math.Cos(rlat1) *
+                Math.Cos(rlat2) * Math.Cos(rtheta);
+            dist = Math.Acos(dist);
+            dist = dist * 180 / Math.PI;
+            dist = dist * 60 * 1.1515;
+
+            switch (unit)
+            {
+                case 'K': //Kilometers -> default
+                    return dist * 1.609344;
+                case 'N': //Nautical Miles 
+                    return dist * 0.8684;
+                case 'M': //Miles
+                    return dist;
+            }
+
+            return dist;
         }
+        
     }
 }
