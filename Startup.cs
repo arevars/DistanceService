@@ -41,7 +41,14 @@ namespace DistanceService
 
             services.AddTransient<IAirportDetailsService, AirportDetailsService>();
             services.AddTransient<IDistanceService, Sevices.DistanceService>();
-            
+            services.AddHttpClient("AirportDetailsService",
+                configureClient: options =>
+                {
+                    options.BaseAddress = new Uri("https://places-dev.cteleport.com/airports/");
+                    options.DefaultRequestHeaders.Accept.Add(
+                        new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(
+                            "application/json", 1.0));
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

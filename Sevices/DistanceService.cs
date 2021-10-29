@@ -1,7 +1,11 @@
-﻿using DistanceService.Interfaces;
+﻿
+using DistanceService.Interfaces;
 using DistanceService.Models;
 using DistanceService.Models.RequestModels;
+using Microsoft.Extensions.Configuration;
 using System;
+using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DistanceService.Sevices
@@ -9,6 +13,8 @@ namespace DistanceService.Sevices
     public class DistanceService : IDistanceService
     {
         private readonly IAirportDetailsService _detailsService;
+        private readonly IConfiguration _config;
+        private readonly IHttpClientFactory _clientFactory;
 
         public DistanceService(IAirportDetailsService detailsService)
         {
@@ -64,6 +70,30 @@ namespace DistanceService.Sevices
 
             return dist;
         }
-        
+
+        public async Task<AirportDetails> GetAirportDetailsByIATA(string iata)
+        {
+            AirportDetails details = new AirportDetails();
+            string Url = _config.GetValue<string>("AirportDetailsServiceUrl");
+
+            try
+            {
+                var client = _clientFactory.CreateClient(name: "AirportDetailsService");
+                var request = new HttpRequestMessage(method: HttpMethod.Get, requestUri: Url);
+
+                HttpResponseMessage response = await client.GetAsync(Url + iata);
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+                    details = JsonSerializer.Deserialize<AirportDetails>(result);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            return details;
+        }
     }
 }
