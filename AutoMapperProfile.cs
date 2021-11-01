@@ -17,7 +17,7 @@
 //            {
 //                mc.AddProfile(new AutoMapperProfile());
 //            });
-            
+
 //            return mapper;
 //        }
 //    }
@@ -27,9 +27,9 @@
 //        public static IMappingExpression<TSource, TDest> IgnoreAllUnmapped<TSource, TDest>(this IMappingExpression<TSource, TDest> expression)
 //        {
 //            expression = expression ?? throw new ArgumentNullException(nameof(expression));
-            
+
 //            expression.ForAllMembers(opt => opt.Ignore());
-            
+
 //            return expression;
 //        }
 //    }

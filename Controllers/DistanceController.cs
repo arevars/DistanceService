@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using DistanceService.Interfaces;
+﻿using DistanceService.Interfaces;
 using DistanceService.Models.RequestModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
@@ -12,18 +10,17 @@ namespace DistanceService.Controllers
     [Route("api/[controller]")]
     public class DistanceController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly IDistanceService _service;
 
-        public DistanceController(
-            IMapper mapper,
-            IDistanceService service)
+        public DistanceController(IDistanceService service)
         {
-            _mapper = mapper;
             _service = service;
         }
 
         [HttpPost]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(200)]
         public async Task<IActionResult> GetDistance(GetDistanceRequestModel request)
         {
             try

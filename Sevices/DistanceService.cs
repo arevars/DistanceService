@@ -12,18 +12,21 @@ namespace DistanceService.Sevices
 {
     public class DistanceService : IDistanceService
     {
-        private readonly IAirportDetailsService _detailsService;
         private readonly IConfiguration _config;
         private readonly IHttpClientFactory _clientFactory;
 
-        public DistanceService(IAirportDetailsService detailsService)
+        public DistanceService(
+            IConfiguration config,
+            IHttpClientFactory clientFactory
+            )
         {
-            _detailsService = detailsService;
+            _config = config;
+            _clientFactory = clientFactory;
         }
         public async Task<GetDistanceResponseModel> GetDistance(GetDistanceRequestModel request)
         {
-            var result1 = await _detailsService.GetAirportDetailsByIATA(request.IataFrom);
-            var result2 = await _detailsService.GetAirportDetailsByIATA(request.IataTo);
+            var result1 = await GetAirportDetailsByIATA(request.IataFrom);
+            var result2 = await GetAirportDetailsByIATA(request.IataTo);
 
             var point1 = new Location
             {

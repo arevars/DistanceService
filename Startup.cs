@@ -1,19 +1,11 @@
-using AutoMapper;
 using DistanceService.Interfaces;
-using DistanceService.Sevices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DistanceService
 {
@@ -39,7 +31,6 @@ namespace DistanceService
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DistanceService", Version = "v1" });
             });
 
-            services.AddTransient<IAirportDetailsService, AirportDetailsService>();
             services.AddTransient<IDistanceService, Sevices.DistanceService>();
             services.AddHttpClient("AirportDetailsService",
                 configureClient: options =>
